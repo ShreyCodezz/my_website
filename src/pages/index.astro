@@ -1,6 +1,8 @@
 ---
 import Base from "../layouts/Base.astro";
 import { SITE } from "../config";
+
+const base = import.meta.env.BASE_URL; // e.g. "/my_website/"
 ---
 
 <Base>
@@ -16,11 +18,11 @@ import { SITE } from "../config";
     </p>
 
     <div class="links">
-      <a href="/projects">view my projects →</a>
+      <a href={`${base}projects`}>view my projects →</a>
       <br>
-      <a href="/blogs">read my blogs -></a>
+      <a href={`${base}blog`}>read my blogs -></a>
       <br>
-      <a href="/about">read whoami →</a>
+      <a href={`${base}about`}>read whoami →</a>
     </div>
   </section>
 
@@ -53,7 +55,7 @@ import { SITE } from "../config";
       from economic models and data analysis to computational experiments.
     </p>
 
-    <a href="/projects">explore projects →</a>
+    <a href={`${base}projects`}>explore projects →</a>
   </section>
 
   <section class="writing-preview">
@@ -66,7 +68,7 @@ import { SITE } from "../config";
       interesting problem i'm currently trying to understand.
     </p>
 
-    <a href="/blogs">read the blogs →</a>
+    <a href={`${base}blog`}>read the blogs →</a>
   </section>
 
   <section class="closing">
