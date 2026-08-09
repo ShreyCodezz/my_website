@@ -6,6 +6,7 @@ import { slugify } from "../../lib/slugify";
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
 );
+const base = import.meta.env.BASE_URL; // e.g. "/my_website/"
 ---
 
 <Base title="Blog">
@@ -19,7 +20,7 @@ const posts = (await getCollection("blog")).sort(
       {posts.map((post) => (
         <li>
           <div class="entry__head">
-            <a href={`/blog/${post.id}/`} class="entry__title">{post.data.title}</a>
+            <a href={`${base}blog/${post.id}/`} class="entry__title">{post.data.title}</a>
             <span class="entry__date">
               {post.data.date.toLocaleDateString("en-IN", { year: "numeric", month: "short", day: "numeric" })}
             </span>
@@ -27,7 +28,7 @@ const posts = (await getCollection("blog")).sort(
           <p class="entry__desc">{post.data.description}</p>
           {post.data.tags.length > 0 && (
             <div class="entry__meta">
-              {post.data.tags.map((t) => <a href={`/blog/tags/${slugify(t)}/`} class="tag">{t}</a>)}
+              {post.data.tags.map((t) => <a href={`${base}blog/tags/${slugify(t)}/`} class="tag">{t}</a>)}
             </div>
           )}
         </li>
