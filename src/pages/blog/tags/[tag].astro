@@ -23,10 +23,11 @@ export async function getStaticPaths() {
 }
 
 const { tag, items } = Astro.props;
+const base = import.meta.env.BASE_URL; // e.g. "/my_website/"
 ---
 
 <Base title={`#${tag}`} description={`Posts tagged ${tag}`}>
-  <a href="/blog" class="back">blog</a>
+  <a href={`${base}blog`} class="back">blog</a>
   <h1><span class="muted" style="font-weight: 400;">tag</span> #{tag}</h1>
   <p class="lede">{items.length} post{items.length === 1 ? "" : "s"}.</p>
 
@@ -34,7 +35,7 @@ const { tag, items } = Astro.props;
     {items.map((post) => (
       <li>
         <div class="entry__head">
-          <a href={`/blog/${post.id}/`} class="entry__title">{post.data.title}</a>
+          <a href={`${base}blog/${post.id}/`} class="entry__title">{post.data.title}</a>
           <span class="entry__date">
             {post.data.date.toLocaleDateString("en-IN", { year: "numeric", month: "short", day: "numeric" })}
           </span>
