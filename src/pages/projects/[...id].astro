@@ -1,0 +1,40 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection, render } from "astro:content";
+import { slugify } from "../../lib/slugify";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((p) => ({ params: { id: p.id }, props: { project: p } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<Base title={project.data.title} description={project.data.description}>
+  <a href="/projects" class="back">projects</a>
+  <h1>{project.data.title}</h1>
+  <p class="muted" style="margin-top: -0.5rem; margin-bottom: 1rem; font-size: 0.85rem; font-family: var(--font-mono);">
+    {project.data.date.toLocaleDateString("en-IN", { year: "numeric", month: "long", day:"numeric" })}
+  </p>
+
+  {project.data.tags.length > 0 && (
+    <div class="entry__meta" style="margin-bottom: 1.5rem;">
+      {project.data.tags.map((t) => <a href={`/projects/tags/${slugify(t)}/`} class="tag">{t}</a>)}
+    </div>
+  )}
+
+  {project.data.link && (
+    <p><a href={project.data.link}>View live →</a></p>
+  )}
+  {project.data.repo && (
+    <p><a href={project.data.repo}>Source →</a></p>
+  )}
+
+  <hr />
+
+  <div class="prose">
+    <Content />
+  </div>
+</Base>

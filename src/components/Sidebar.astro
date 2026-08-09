@@ -1,0 +1,56 @@
+---
+import { SITE } from "../config";
+
+const path = Astro.url.pathname;
+const isActive = (prefix: string, exact = false) => {
+  if (exact) return path === prefix;
+  return path === prefix || path.startsWith(prefix + "/");
+};
+---
+
+<aside class="layout__aside">
+  <div>
+    <a href="/" class="brand">
+      {SITE.author}
+      <span class="brand__sub">IISER Bhopal</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <a href="/" class={isActive("/", true) ? "active" : ""}>home</a>
+      <a href="/projects" class={isActive("/projects") ? "active" : ""}>projects</a>
+      <a href="/blog" class={isActive("/blog") ? "active" : ""}>blog</a>
+      <a href="/about" class={isActive("/about") ? "active" : ""}>about</a>
+    </nav>
+  </div>
+
+  <div class="aside__footer">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+      <span id="theme-icon" aria-hidden="true"></span>
+      <span id="theme-label"></span>
+    </button>
+    <div class="social">
+      <a href={SITE.github} rel="me">GitHub</a>
+      <a href={SITE.linkedin} rel="me">LinkedIn</a>
+      <a href={SITE.X} rel="me">X</a>
+      <a href={`mailto:${SITE.email}`}>Email</a>
+    </div>
+  </div>
+</aside>
+
+<script is:inline>
+  (function () {
+    const root = document.documentElement;
+    document
+      .getElementById("theme-toggle")
+      ?.addEventListener("click", function () {
+        const current =
+          root.getAttribute("data-theme") ??
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        const next = current === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+      });
+  })();
+</script>

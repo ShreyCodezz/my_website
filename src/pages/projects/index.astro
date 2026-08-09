@@ -1,0 +1,37 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+import { slugify } from "../../lib/slugify";
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+---
+
+<Base title="Projects">
+  <h1>Projects</h1>
+  <p class="lede">Things I've built or am working on.</p>
+
+  {projects.length === 0 ? (
+    <p class="muted">Nothing here yet.</p>
+  ) : (
+    <ul class="entries">
+      {projects.map((p) => (
+        <li>
+          <div class="entry__head">
+            <a href={`/projects/${p.id}/`} class="entry__title">{p.data.title}</a>
+            <span class="entry__date">
+              {p.data.date.toLocaleDateString("en-IN", { year: "numeric", month: "short" })}
+            </span>
+          </div>
+          <p class="entry__desc">{p.data.description}</p>
+          {p.data.tags.length > 0 && (
+            <div class="entry__meta">
+              {p.data.tags.map((t) => <a href={`/projects/tags/${slugify(t)}/`} class="tag">{t}</a>)}
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>

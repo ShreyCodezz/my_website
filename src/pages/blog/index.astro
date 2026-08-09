@@ -1,0 +1,37 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+import { slugify } from "../../lib/slugify";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+---
+
+<Base title="Blog">
+  <h1>Blog</h1>
+  <p class="lede">Notes on things I'm learning.</p>
+
+  {posts.length === 0 ? (
+    <p class="muted">No posts yet.</p>
+  ) : (
+    <ul class="entries">
+      {posts.map((post) => (
+        <li>
+          <div class="entry__head">
+            <a href={`/blog/${post.id}/`} class="entry__title">{post.data.title}</a>
+            <span class="entry__date">
+              {post.data.date.toLocaleDateString("en-IN", { year: "numeric", month: "short", day: "numeric" })}
+            </span>
+          </div>
+          <p class="entry__desc">{post.data.description}</p>
+          {post.data.tags.length > 0 && (
+            <div class="entry__meta">
+              {post.data.tags.map((t) => <a href={`/blog/tags/${slugify(t)}/`} class="tag">{t}</a>)}
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>

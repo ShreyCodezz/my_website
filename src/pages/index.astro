@@ -1,0 +1,94 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE } from "../config";
+---
+
+<Base>
+  <h1>Hi, I'm Shreyaan.</h1>
+ <section class="hero">
+    <p><strong>economics · mathematics · code</strong></p>
+    <h1>building at the intersection</h1>
+
+    <p class="intro">
+      hi, i'm shreyaan — an economics student at IISER Bhopal interested in
+      quantitative finance, mathematical economics, statistics, and
+      computational problem solving.
+    </p>
+
+    <div class="links">
+      <a href="/projects">view my projects →</a>
+      <br>
+      <a href="/blogs">read my blogs -></a>
+      <br>
+      <a href="/about">read whoami →</a>
+    </div>
+  </section>
+
+  <section class="about-preview">
+    <h2>what i'm interested in</h2>
+
+    <p>
+      i enjoy understanding difficult ideas from first principles and then
+      turning them into something tangible. my interests sit somewhere between
+      economics, mathematics, statistics, programming, and finance.
+    </p>
+
+    <div class="interests">
+      <span>economics</span>
+      <span>mathematics</span>
+      <span>statistics</span>
+      <span>machine learning</span>
+      <span>programming</span>
+      <span>quantitative finance</span>
+    </div>
+  </section>
+
+  <section class="projects-preview">
+    <div>
+      <h2>things i've built.</h2>
+    </div>
+
+    <p>
+      projects, experiments, and ideas that come from things i'm learning —
+      from economic models and data analysis to computational experiments.
+    </p>
+
+    <a href="/projects">explore projects →</a>
+  </section>
+
+  <section class="writing-preview">
+    <div>
+      <h2>things i'm thinking about.</h2>
+    </div>
+
+    <p>
+      notes on economics, mathematics, statistics, programming, and whatever
+      interesting problem i'm currently trying to understand.
+    </p>
+
+    <a href="/blogs">read the blogs →</a>
+  </section>
+
+  <section class="closing">
+    <h2>learn deeply. build things. understand why.</h2>
+
+    <p>
+      this website is a record of what i'm learning, building, and figuring out
+      along the way.
+    </p>
+  </section>
+
+  <style>
+  .interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .interests span {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #444;
+    border-radius: 999px;
+  }
+</style>
+</Base>

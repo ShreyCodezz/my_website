@@ -1,0 +1,72 @@
+---
+import { SITE } from "../config";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = SITE.description } = Astro.props;
+const pageTitle = title ? `${title} — ${SITE.title}` : SITE.title;
+const path = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <nav class="site-nav">
+      <a href="/" class={path === "/" ? "active" : ""}>Home</a>
+      <a href="/projects" class={path.startsWith("/projects") ? "active" : ""}>Projects</a>
+      <a href="/blog" class={path.startsWith("/blog") ? "active" : ""}>Blog</a>
+      <a href="/about" class={path.startsWith("/about") ? "active" : ""}>About</a>
+    </nav>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+      <span id="theme-icon">◐</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <slot />
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span>© {new Date().getFullYear()} {SITE.author}</span>
+    <span>
+      <a href={SITE.github}>GitHub</a> · <a href={SITE.linkedin}>LinkedIn</a>
+    </span>
+  </div>
+</footer>
+
+<script is:inline>
+  (function () {
+    const root = document.documentElement;
+    const stored = localStorage.getItem("theme");
+    if (stored) {
+      root.setAttribute("data-theme", stored);
+    }
+    function updateIcon() {
+      const current =
+        root.getAttribute("data-theme") ??
+        (window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light");
+      const icon = document.getElementById("theme-icon");
+      if (icon) icon.textContent = current === "dark" ? "◑" : "◐";
+    }
+    updateIcon();
+    document
+      .getElementById("theme-toggle")
+      ?.addEventListener("click", function () {
+        const current =
+          root.getAttribute("data-theme") ??
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        const next = current === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        updateIcon();
+      });
+  })();
+</script>

@@ -1,0 +1,46 @@
+---
+import Base from "../../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+import { slugify } from "../../../lib/slugify";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  const tagMap = new Map<string, typeof posts>();
+  for (const p of posts) {
+    for (const tag of p.data.tags) {
+      const slug = slugify(tag);
+      if (!tagMap.has(slug)) tagMap.set(slug, []);
+      tagMap.get(slug)!.push(p);
+    }
+  }
+  return Array.from(tagMap.entries()).map(([slug, items]) => ({
+    params: { tag: slug },
+    props: {
+      tag: items[0].data.tags.find((t) => slugify(t) === slug)!,
+      items: items.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
+    },
+  }));
+}
+
+const { tag, items } = Astro.props;
+---
+
+<Base title={`#${tag}`} description={`Posts tagged ${tag}`}>
+  <a href="/blog" class="back">blog</a>
+  <h1><span class="muted" style="font-weight: 400;">tag</span> #{tag}</h1>
+  <p class="lede">{items.length} post{items.length === 1 ? "" : "s"}.</p>
+
+  <ul class="entries">
+    {items.map((post) => (
+      <li>
+        <div class="entry__head">
+          <a href={`/blog/${post.id}/`} class="entry__title">{post.data.title}</a>
+          <span class="entry__date">
+            {post.data.date.toLocaleDateString("en-IN", { year: "numeric", month: "short", day: "numeric" })}
+          </span>
+        </div>
+        <p class="entry__desc">{post.data.description}</p>
+      </li>
+    ))}
+  </ul>
+</Base>

@@ -1,0 +1,45 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE } from "../config";
+---
+
+<Base title="whoami">
+  <h1>whoami</h1>
+  <p class="lede">A few things about me.</p>
+
+  <div class="prose">
+    <p>
+      I'm <strong>Shreyaan Bhat</strong>, starting my undergraduate studies in
+      <strong> Economic Sciences</strong> at <strong> IISER Bhopal</strong> in
+      2026.
+    </p>
+
+    <p>
+    I build, I learn, and I share. I have a lot of interest in maths not just problem solving but also the concepts and theory
+    behind it. I have liked coding and tinkering with my pc since i was 12 years old and still do it.
+    </p>
+
+    <h2>currently</h2>
+    <ul>
+      <li>i am learning linear algebra (book) by gilbert strang </li>
+      <li>building small projects</li>
+      <li>trying to stay consistent</li>
+    </ul>
+
+    <h2>loadout</h2>
+    <ul>
+      <li>editor: vscode, neovim</li>
+      <li>os: arch linux+windows </li>
+      <li>languages: python, c++ , sql</li>
+      <li>interests: ai, ml, maths</li>
+    </ul>
+
+    <h2>links</h2>
+    <ul>
+      <li><a href={SITE.github}>github</a></li>
+      <li><a href={SITE.linkedin}>linkedin</a></li>
+      <li><a href={SITE.X}>x</a></li>
+      <li><a href={`mailto:${SITE.email}`}>email</a></li>
+    </ul>
+  </div>
+</Base>

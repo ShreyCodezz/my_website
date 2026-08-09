@@ -1,0 +1,33 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection, render } from "astro:content";
+import { slugify } from "../../lib/slugify";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((p) => ({ params: { id: p.id }, props: { post: p } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Base title={post.data.title} description={post.data.description}>
+  <a href="/blog" class="back">blog</a>
+  <h1>{post.data.title}</h1>
+  <p class="muted" style="margin-top: -0.5rem; margin-bottom: 1rem; font-size: 0.85rem; font-family: var(--font-mono);">
+    {post.data.date.toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" })}
+  </p>
+
+  {post.data.tags.length > 0 && (
+    <div class="entry__meta" style="margin-bottom: 1.5rem;">
+      {post.data.tags.map((t) => <a href={`/blog/tags/${slugify(t)}/`} class="tag">{t}</a>)}
+    </div>
+  )}
+
+  <hr />
+
+  <div class="prose">
+    <Content />
+  </div>
+</Base>
