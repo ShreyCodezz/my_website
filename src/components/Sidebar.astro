@@ -19,10 +19,13 @@ const href = (route: string) => (route === "/" ? base : `${base}${route.slice(1)
 
 <aside class="layout__aside">
   <div>
-    <a href={base} class="brand">
-      {SITE.author}
-      <span class="brand__sub">IISER Bhopal</span>
-    </a>
+    <div class="profile">
+      <img src={`${base}dp.jpg`} alt={`${SITE.author} avatar`} class="profile__avatar" width="72" height="72" />
+      <a href={base} class="brand">
+        {SITE.author}
+        <span class="brand__sub">IISER Bhopal</span>
+      </a>
+    </div>
 
     <nav class="nav" aria-label="Primary">
       <a href={href("/")} class={isActive("/", true) ? "active" : ""}>home</a>
